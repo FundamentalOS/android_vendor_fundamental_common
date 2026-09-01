@@ -9,3 +9,6 @@ $(call inherit-product, vendor/fundamental/config/telephony.mk)
 
 # Google apps (MindTheGapps) - minimal GMS
 $(call inherit-product, vendor/gapps/arm64/arm64-vendor.mk)
+
+# FundamentalOS GMS extras (Circle to Search + Chrome)
+$(call inherit-product, vendor/fundamental/config/fundamental_gms.mk)

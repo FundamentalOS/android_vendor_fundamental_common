@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FundamentalOS: route Circle to Search / Assistant to the Google app (Velvet) -->
+<resources>
+    <string name="config_defaultContextualSearchPackageName" translatable="false">com.google.android.googlequicksearchbox</string>
+    <string name="config_defaultAssistant" translatable="false">com.google.android.googlequicksearchbox</string>
+</resources>
