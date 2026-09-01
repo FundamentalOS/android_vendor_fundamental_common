@@ -15,8 +15,10 @@ PRODUCT_PACKAGES += \
     Seedvault \
 
 ifneq ($(PRODUCT_NO_CAMERA),true)
+ifneq ($(FUNDAMENTAL_SHIPS_GCAM),true)
 PRODUCT_PACKAGES += \
     Aperture
+endif
 endif
 
 ifneq ($(TARGET_EXCLUDES_AUDIOFX),true)
