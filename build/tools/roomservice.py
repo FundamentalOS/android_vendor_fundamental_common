@@ -161,16 +161,20 @@ def is_in_manifest(tag, attr, attr_value):
         if localpath.get(attr) == attr_value:
             return True
 
-    # ... and don't forget the lineage snippet
-    try:
-        lm = ElementTree.parse('.repo/manifests/snippets/lineage.xml')
-        lm = lm.getroot()
-    except Exception:
-        lm = ElementTree.Element('manifest')
+    # ... and don't forget the FundamentalOS / lineage snippets
+    for snippet in (
+        '.repo/manifests/snippets/fundamentalos.xml',
+        '.repo/manifests/snippets/lineage.xml',
+    ):
+        try:
+            lm = ElementTree.parse(snippet)
+            lm = lm.getroot()
+        except Exception:
+            lm = ElementTree.Element('manifest')
 
-    for localpath in lm.findall(tag):
-        if localpath.get(attr) == attr_value:
-            return True
+        for localpath in lm.findall(tag):
+            if localpath.get(attr) == attr_value:
+                return True
 
     return False
 
@@ -252,7 +256,11 @@ def add_to_manifest(dependencies):
 
 def fetch_dependencies(repo_path):
     print(f'Looking for dependencies in {repo_path}')
-    dependencies_path = repo_path + '/lineage.dependencies'
+    dependencies_path = repo_path + '/fundamental.dependencies'
+    # Fall back to the legacy lineage.dependencies name for upstream repos
+    # that haven't been rebranded (e.g. the shared zumapro/gs-common trees).
+    if not os.path.exists(dependencies_path):
+        dependencies_path = repo_path + '/lineage.dependencies'
     syncable_repos = []
     verify_repos = []
 
