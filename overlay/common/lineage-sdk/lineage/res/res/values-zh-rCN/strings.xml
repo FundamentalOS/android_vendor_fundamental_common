@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="lineageos_system_label">FundamentalOS 系统</string>
-    <string name="lineage_api_level">FundamentalOS API 级别</string>
-    <string name="lineage_updates">FundamentalOS 更新</string>
-    <string name="lineage_version">FundamentalOS 版本</string>
-</resources>
