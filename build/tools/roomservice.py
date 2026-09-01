@@ -235,6 +235,13 @@ def add_to_manifest(dependencies):
                     project.attrib['remote'] = repo_remote
                     project.attrib['clone-depth'] = '1'
                     del project.attrib['revision']
+                else:
+                    # Custom remotes (e.g. fundamentalos) already carry the
+                    # org in their fetch URL, so use the bare repository name.
+                    project.attrib['name'] = repo_name
+                    project.attrib['remote'] = repo_remote
+                    if repo_revision is None:
+                        del project.attrib['revision']
             if project.attrib.get('revision', None) == get_default_revision():
                 del project.attrib['revision']
             print(
