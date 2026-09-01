@@ -43,3 +43,9 @@ PRODUCT_PRODUCT_PROPERTIES += \
     ro.lineage.display.version=$(LINEAGE_DISPLAY_VERSION) \
     ro.lineage.build.version=$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR) \
     ro.lineage.releasetype=$(LINEAGE_BUILDTYPE)
+
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.fundamental.version=$(LINEAGE_VERSION) \
+    ro.fundamental.display.version=$(LINEAGE_DISPLAY_VERSION) \
+    ro.fundamental.build.version=$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR) \
+    ro.fundamental.releasetype=$(LINEAGE_BUILDTYPE)
