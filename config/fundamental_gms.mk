@@ -8,4 +8,4 @@ PRODUCT_COPY_FILES += \
     vendor/fundamental/prebuilt/common/etc/init/fundamental-cts.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/fundamental-cts.rc
 
 # Google Chrome (Trichrome) — replaces Jelly via overrides when the tree is present.
-$(call inherit-product-if-exists, vendor/chrome/config/chrome.mk)
+$(call inherit-product-if-exists, vendor/gapps/chrome/config/chrome.mk)
