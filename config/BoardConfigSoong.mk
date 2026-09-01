@@ -1,3 +1,6 @@
+# FundamentalOS: make mimalloc the default bionic allocator (trades Scudo/MTE for alloc perf)
+MALLOC_USE_MIMALLOC := true
+
 PATH_OVERRIDE_SOONG := $(shell echo $(TOOLS_PATH_OVERRIDE))
 
 # Add variables that we wish to make available to soong here.
