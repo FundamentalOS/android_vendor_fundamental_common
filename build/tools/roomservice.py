@@ -27,6 +27,14 @@ import urllib.parse
 import urllib.request
 from xml.etree import ElementTree
 
+# FundamentalOS defaults: forks live under the FundamentalOS org on the '16'
+# branch (declared as the fundamentalos remote's revision in
+# snippets/fundamentalos.xml). Roomservice falls back to these when a device or
+# dependency does not pin its own remote/branch.
+FUNDAMENTAL_ORG = 'FundamentalOS'
+FUNDAMENTAL_REMOTE = 'fundamentalos'
+FUNDAMENTAL_BRANCH = '16'
+
 dryrun = os.getenv('ROOMSERVICE_DRYRUN') == 'true'
 if dryrun:
     print('Dry run roomservice, no change will be made.')
@@ -45,12 +53,16 @@ except IndexError:
 
 if not depsonly:
     print(
-        f'Device {device} not found. Attempting to retrieve device repository from LineageOS Github (http://github.com/LineageOS).'
+        f'Device {device} not found. Attempting to retrieve device repository from '
+        f'FundamentalOS Github (https://github.com/{FUNDAMENTAL_ORG}).'
     )
 
 repositories = []
 
 if not depsonly:
+    # The LineageOS mirror is only used as a codename -> repo-name catalog
+    # (FundamentalOS has no mirror); the actual clone below targets the
+    # FundamentalOS org via get_default_or_fallback_revision/add_to_manifest.
     githubreq = urllib.request.Request(
         'https://raw.githubusercontent.com/LineageOS/mirror/main/default.xml'
     )
@@ -215,35 +227,44 @@ def add_to_manifest(dependencies):
             repo_revision = dependency['branch']
             print(f'Checking if {repo_target} is fetched from {repo_name}')
             if is_in_manifest('project', 'path', repo_target):
-                print(f'LineageOS/{repo_name} already fetched to {repo_target}')
+                print(f'{repo_name} already fetched to {repo_target}')
                 continue
 
-            project = ElementTree.Element(
-                'project',
-                attrib={
-                    'path': repo_target,
-                    'remote': 'github',
-                    'name': f'LineageOS/{repo_name}',
-                    'revision': repo_revision,
-                },
-            )
+            # Resolve the remote and project name. Default to the FundamentalOS
+            # remote; an explicit "remote" in the dependency can override it.
             if repo_remote := dependency.get('remote', None):
-                # aosp- remotes are only used for kernel prebuilts, thus they
-                # don't let you customize clone-depth/revision.
                 if repo_remote.startswith('aosp-'):
-                    project.attrib['name'] = repo_name
-                    project.attrib['remote'] = repo_remote
-                    project.attrib['clone-depth'] = '1'
-                    del project.attrib['revision']
+                    remote_name, project_name = repo_remote, repo_name
+                elif repo_remote == 'github':
+                    # Explicit upstream LineageOS dependency.
+                    remote_name, project_name = 'github', f'LineageOS/{repo_name}'
                 else:
-                    # Custom remotes (e.g. fundamentalos) already carry the
-                    # org in their fetch URL, so use the bare repository name.
-                    project.attrib['name'] = repo_name
-                    project.attrib['remote'] = repo_remote
-                    if repo_revision is None:
-                        del project.attrib['revision']
-            if project.attrib.get('revision', None) == get_default_revision():
-                del project.attrib['revision']
+                    # Custom remotes (e.g. fundamentalos) already carry the org
+                    # in their fetch URL, so use the bare repository name.
+                    remote_name, project_name = repo_remote, repo_name
+            else:
+                remote_name, project_name = FUNDAMENTAL_REMOTE, repo_name
+
+            attrib = {
+                'path': repo_target,
+                'remote': remote_name,
+                'name': project_name,
+            }
+            # Only pin a revision when it differs from what the remote already
+            # defaults to, so the entry inherits it otherwise:
+            #   aosp-*        -> the aosp remote's own tag (+ shallow clone)
+            #   github        -> the manifest-wide default (lineage-23.2)
+            #   fundamentalos -> the remote's revision="16" (see snippet)
+            if remote_name.startswith('aosp-'):
+                attrib['clone-depth'] = '1'
+            elif remote_name == 'github':
+                if repo_revision and repo_revision != get_default_revision():
+                    attrib['revision'] = repo_revision
+            else:
+                if repo_revision and repo_revision != FUNDAMENTAL_BRANCH:
+                    attrib['revision'] = repo_revision
+
+            project = ElementTree.Element('project', attrib=attrib)
             print(
                 f'Adding dependency: {project.attrib["name"]} -> {project.attrib["path"]}'
             )
@@ -295,7 +316,14 @@ def fetch_dependencies(repo_path):
                     fetch_list.append(dependency)
                     syncable_repos.append(dependency['target_path'])
                     if 'branch' not in dependency:
-                        if dependency.get('remote', 'github') == 'github':
+                        remote = dependency.get('remote', FUNDAMENTAL_REMOTE)
+                        if remote.startswith('aosp-'):
+                            dependency['branch'] = None
+                        elif remote == 'github':
+                            # upstream LineageOS: manifest-wide default revision
+                            dependency['branch'] = get_default_revision()
+                        else:
+                            # FundamentalOS / custom remote fork
                             dependency['branch'] = (
                                 get_default_or_fallback_revision(
                                     dependency['repository']
@@ -303,8 +331,6 @@ def fetch_dependencies(repo_path):
                             )
                             if not dependency['branch']:
                                 sys.exit(1)
-                        else:
-                            dependency['branch'] = None
                 verify_repos.append(dependency['target_path'])
 
                 if not os.path.isdir(dependency['target_path']):
@@ -329,7 +355,10 @@ def fetch_dependencies(repo_path):
 
 
 def get_default_or_fallback_revision(repo_name):
-    default_revision = get_default_revision()
+    # FundamentalOS forks track the '16' branch (the fundamentalos remote's
+    # revision), independent of the manifest-wide default which stays
+    # lineage-23.2 for upstream projects.
+    default_revision = FUNDAMENTAL_BRANCH
     print(f'Default revision: {default_revision}')
     print('Checking branch info')
 
@@ -339,7 +368,7 @@ def get_default_or_fallback_revision(repo_name):
                 'git',
                 'ls-remote',
                 '-h',
-                'https://:@github.com/LineageOS/' + repo_name,
+                f'https://:@github.com/{FUNDAMENTAL_ORG}/' + repo_name,
             ],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -414,5 +443,5 @@ else:
             sys.exit()
 
 print(
-    f'Repository for {device} not found in the LineageOS Github repository list. If this is in error, you may need to manually add it to your local_manifests/roomservice.xml.'
+    f'Repository for {device} not found in the FundamentalOS Github org. If this is in error, you may need to manually add it to your local_manifests/roomservice.xml.'
 )
