@@ -99,6 +99,13 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     lineage-component-overrides.xml
 
+# FundamentalOS: Pixel lockscreen clock-face plugins (SystemUIClocks-*) imported from
+# stock BP4A (payload in vendor/google/clocks). Generic SystemUI ClockProviderPlugins,
+# so ROM-wide rather than device-bound; user-build loading is enabled via
+# config_pluginAllowlist in vendor/fundamental/overlay/common. if-exists so a device
+# without the prebuilt repo still builds.
+$(call inherit-product-if-exists, vendor/google/clocks/clocks.mk)
+
 # This is Lineage!
 PRODUCT_COPY_FILES += \
     vendor/fundamental/config/permissions/org.lineageos.android.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/org.lineageos.android.xml
