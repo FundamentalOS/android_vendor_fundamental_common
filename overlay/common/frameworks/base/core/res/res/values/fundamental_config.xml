@@ -3,4 +3,7 @@
 <resources>
     <string name="config_defaultContextualSearchPackageName" translatable="false">com.google.android.googlequicksearchbox</string>
     <string name="config_defaultAssistant" translatable="false">com.google.android.googlequicksearchbox</string>
+
+    <!-- Show carrier names in the system language (中国移动 instead of CMCC / China Mobile) -->
+    <bool name="config_localized_carrier_names_enabled">true</bool>
 </resources>
