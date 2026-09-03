@@ -37,4 +37,7 @@
 
     <!-- Configuration to swipe to open glanceable hub -->
     <bool name="config_swipeToOpenGlanceableHub">true</bool>
+
+    <!-- Show only the carrier of the SIM selected for mobile data on the lock screen -->
+    <bool name="config_keyguardCarrierTextDataSubscriptionOnly">true</bool>
 </resources>
