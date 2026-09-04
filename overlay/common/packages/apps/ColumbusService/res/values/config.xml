@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- FundamentalOS: prefer the CHRE (ContextHub) sensor path for Quick Tap -
+         lower power than the AP accelerometer + TensorFlow Lite path. ColumbusService
+         automatically falls back to APSensor when the android.hardware.context_hub
+         system feature is absent, so this is safe on non-ContextHub devices. -->
+    <bool name="default_use_apsensor" translatable="false">false</bool>
+</resources>
