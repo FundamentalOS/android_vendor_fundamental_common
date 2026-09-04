@@ -1,12 +1,12 @@
 # Inherit common mobile Lineage stuff
-$(call inherit-product, vendor/fundamental/config/common.mk)
+$(call inherit-product, vendor/fundamental/common/config/common.mk)
 
 # Include AOSP audio files
 $(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackage14.mk)
-include vendor/fundamental/config/aosp_audio.mk
+include vendor/fundamental/common/config/aosp_audio.mk
 
 # Include Lineage audio files
-include vendor/fundamental/config/lineage_audio.mk
+include vendor/fundamental/common/config/lineage_audio.mk
 
 # Default notification/alarm sounds
 PRODUCT_PRODUCT_PROPERTIES += \

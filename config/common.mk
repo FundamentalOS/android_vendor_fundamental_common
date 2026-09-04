@@ -49,8 +49,8 @@ endif
 
 # Backup Tool
 PRODUCT_COPY_FILES += \
-    vendor/fundamental/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
-    vendor/fundamental/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions
+    vendor/fundamental/common/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
+    vendor/fundamental/common/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions
 
 PRODUCT_PACKAGES += \
     50-lineage.sh
@@ -60,9 +60,9 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
 
 ifneq ($(strip $(AB_OTA_PARTITIONS) $(AB_OTA_POSTINSTALL_CONFIG)),)
 PRODUCT_COPY_FILES += \
-    vendor/fundamental/prebuilt/common/bin/backuptool_ab.sh:$(TARGET_COPY_OUT_SYSTEM)/bin/backuptool_ab.sh \
-    vendor/fundamental/prebuilt/common/bin/backuptool_ab.functions:$(TARGET_COPY_OUT_SYSTEM)/bin/backuptool_ab.functions \
-    vendor/fundamental/prebuilt/common/bin/backuptool_postinstall.sh:$(TARGET_COPY_OUT_SYSTEM)/bin/backuptool_postinstall.sh
+    vendor/fundamental/common/prebuilt/common/bin/backuptool_ab.sh:$(TARGET_COPY_OUT_SYSTEM)/bin/backuptool_ab.sh \
+    vendor/fundamental/common/prebuilt/common/bin/backuptool_ab.functions:$(TARGET_COPY_OUT_SYSTEM)/bin/backuptool_ab.functions \
+    vendor/fundamental/common/prebuilt/common/bin/backuptool_postinstall.sh:$(TARGET_COPY_OUT_SYSTEM)/bin/backuptool_postinstall.sh
 
 PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
     system/bin/backuptool_ab.sh \
@@ -77,11 +77,11 @@ endif
 
 # Lineage-specific broadcast actions whitelist
 PRODUCT_COPY_FILES += \
-    vendor/fundamental/config/permissions/lineage-sysconfig.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/sysconfig/lineage-sysconfig.xml
+    vendor/fundamental/common/config/permissions/lineage-sysconfig.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/sysconfig/lineage-sysconfig.xml
 
 # Lineage-specific init rc file
 PRODUCT_COPY_FILES += \
-    vendor/fundamental/prebuilt/common/etc/init/init.lineage-system_ext.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.lineage-system_ext.rc
+    vendor/fundamental/common/prebuilt/common/etc/init/init.lineage-system_ext.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.lineage-system_ext.rc
 
 # Enable SIP+VoIP on all targets
 PRODUCT_COPY_FILES += \
@@ -102,13 +102,13 @@ PRODUCT_PACKAGES += \
 # FundamentalOS: Pixel lockscreen clock-face plugins (SystemUIClocks-*) imported from
 # stock BP4A (payload in vendor/fundamental/clocks). Generic SystemUI ClockProviderPlugins,
 # so ROM-wide rather than device-bound; user-build loading is enabled via
-# config_pluginAllowlist in vendor/fundamental/overlay/common. if-exists so a device
+# config_pluginAllowlist in vendor/fundamental/common/overlay/common. if-exists so a device
 # without the prebuilt repo still builds.
 $(call inherit-product-if-exists, vendor/fundamental/clocks/clocks.mk)
 
 # This is Lineage!
 PRODUCT_COPY_FILES += \
-    vendor/fundamental/config/permissions/org.lineageos.android.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/org.lineageos.android.xml
+    vendor/fundamental/common/config/permissions/org.lineageos.android.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/org.lineageos.android.xml
 
 # Enforce privapp-permissions whitelist
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -116,7 +116,7 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 ifneq ($(TARGET_DISABLE_LINEAGE_SDK), true)
 # Lineage SDK
-include vendor/fundamental/config/lineage_sdk_common.mk
+include vendor/fundamental/common/config/lineage_sdk_common.mk
 endif
 
 # Do not include art debug targets
@@ -169,7 +169,7 @@ PRODUCT_PACKAGES += \
     Updater
 
 PRODUCT_COPY_FILES += \
-    vendor/fundamental/prebuilt/common/etc/init/init.lineage-updater.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.lineage-updater.rc
+    vendor/fundamental/common/prebuilt/common/etc/init/init.lineage-updater.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.lineage-updater.rc
 
 # Config
 PRODUCT_PACKAGES += \
@@ -216,7 +216,7 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
 
 # FRP
 PRODUCT_COPY_FILES += \
-    vendor/fundamental/prebuilt/common/bin/wipe-frp.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/wipe-frp
+    vendor/fundamental/common/prebuilt/common/bin/wipe-frp.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/wipe-frp
 
 # Openssh
 PRODUCT_PACKAGES += \
@@ -229,7 +229,7 @@ PRODUCT_PACKAGES += \
     start-ssh
 
 PRODUCT_COPY_FILES += \
-    vendor/fundamental/prebuilt/common/etc/init/init.openssh.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/init.openssh.rc
+    vendor/fundamental/common/prebuilt/common/etc/init/init.openssh.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/init.openssh.rc
 
 # OverlayFS
 PRODUCT_PACKAGES_DEBUG += \
@@ -279,17 +279,17 @@ PRODUCT_PRODUCT_PROPERTIES += \
 endif
 
 # Audio files
-$(call inherit-product, vendor/fundamental/audio/audio.mk)
+$(call inherit-product, vendor/fundamental/common/audio/audio.mk)
 
 # SetupWizard
 PRODUCT_PRODUCT_PROPERTIES += \
     setupwizard.theme=glif_v4 \
     setupwizard.feature.day_night_mode_enabled=true
 
-PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/fundamental/overlay/no-rro
+PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/fundamental/common/overlay/no-rro
 PRODUCT_PACKAGE_OVERLAYS += \
-    vendor/fundamental/overlay/common \
-    vendor/fundamental/overlay/no-rro
+    vendor/fundamental/common/overlay/common \
+    vendor/fundamental/common/overlay/no-rro
 
 PRODUCT_PACKAGES += \
     DocumentsUIOverlay \
@@ -310,9 +310,9 @@ PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/crowdin/overlay
 PRODUCT_PACKAGE_OVERLAYS += vendor/crowdin/overlay
 
 PRODUCT_EXTRA_RECOVERY_KEYS += \
-    vendor/fundamental/build/target/product/security/lineage
+    vendor/fundamental/common/build/target/product/security/lineage
 
-include vendor/fundamental/config/version.mk
+include vendor/fundamental/common/config/version.mk
 
 -include vendor/lineage-priv/keys/keys.mk
 
