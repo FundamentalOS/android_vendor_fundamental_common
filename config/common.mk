@@ -268,10 +268,17 @@ endif
 # SystemUI
 PRODUCT_DEXPREOPT_SPEED_APPS += \
     CarSystemUI \
-    SystemUI
+    SystemUI \
+    SystemUIFundamental
 
 PRODUCT_PRODUCT_PROPERTIES += \
     dalvik.vm.systemuicompilerfilter=speed
+
+# FundamentalOS: SystemUIFundamental overrides SystemUI (adds the Pixel
+# SystemUI feature ports); ColumbusService provides Quick Tap.
+PRODUCT_PACKAGES += \
+    SystemUIFundamental \
+    ColumbusService
 
 ifeq ($(TARGET_BUILD_VARIANT),userdebug)
 PRODUCT_PRODUCT_PROPERTIES += \
