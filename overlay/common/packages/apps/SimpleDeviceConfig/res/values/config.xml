@@ -24,6 +24,18 @@
         <!-- Enable the ML-based back-gesture classifier (SystemUIFundamental port) -->
         <item>systemui/use_back_gesture_ml_model=true</item>
 
+        <!--
+            Android System Intelligence (device_personalization_services).
+            ASI ships these flags defaulting to false and normally receives
+            them from the server; bake the ones our SystemUI features rely on.
+        -->
+        <!-- Smartspace weather: let ASI pull weather data itself (via PCS) -->
+        <item>device_personalization_services/Echo__smartspace_enable_private_weather=true</item>
+        <item>device_personalization_services/Echo__smartspace_enable_weather_data_pull_scheduler=true</item>
+        <item>device_personalization_services/Echo__smartspace_enable_weather_data_pull_scheduler_use_location=true</item>
+        <!-- Screenshot smart actions (ScreenshotNotificationSmartActionsProvider) -->
+        <item>device_personalization_services/Screenshot__enable_screenshot_notification_smart_actions=true</item>
+
         <!-- Use new privacy indicators for location -->
         <item>privacy/location_indicators_enabled=true</item>
         <!-- Allow users to disable location indicators in Developer Options -->
