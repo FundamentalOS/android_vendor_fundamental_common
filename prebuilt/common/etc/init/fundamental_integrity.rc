@@ -1,0 +1,5 @@
+# FundamentalOS: config dir for the Play Integrity attestation forge. keystore2 reads the keybox +
+# target-uid list here; the Settings integrity UI writes them. Labeled fundamental_data_file by
+# file_contexts; mode 0771 so system (Settings) writes and keystore (other) can search + read files.
+on post-fs-data
+    mkdir /data/misc/fundamental 0771 system system
