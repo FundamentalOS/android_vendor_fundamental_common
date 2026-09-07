@@ -328,3 +328,6 @@ include vendor/fundamental/common/config/version.mk
 # FundamentalOS: create the Play Integrity forge config dir (/data/misc/fundamental) at boot
 PRODUCT_COPY_FILES += \
     vendor/fundamental/common/prebuilt/common/etc/init/fundamental_integrity.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/fundamental_integrity.rc
+
+# FundamentalOS keybox fetch service
+PRODUCT_PACKAGES += FundamentalForge
