@@ -1,11 +1,11 @@
-# Inherit common mobile Lineage stuff
+# Inherit common mobile FundamentalOS stuff
 $(call inherit-product, vendor/fundamental/common/config/common.mk)
 
 # Include AOSP audio files
 $(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackage14.mk)
 include vendor/fundamental/common/config/aosp_audio.mk
 
-# Include Lineage audio files
+# Include FundamentalOS audio files
 include vendor/fundamental/common/config/lineage_audio.mk
 
 # Default notification/alarm sounds
@@ -16,8 +16,6 @@ PRODUCT_PRODUCT_PROPERTIES += \
 # Apps
 PRODUCT_PACKAGES += \
     AvatarPicker \
-    Backgrounds \
-    Glimpse \
     LatinIME
 
 ifeq ($(PRODUCT_TYPE), go)
@@ -47,10 +45,6 @@ PRODUCT_PACKAGES += \
     lineage_charger_animation_vendor
 endif
 
-# Legal
-PRODUCT_PRODUCT_PROPERTIES += \
-    ro.lineagelegal.url=https://lineageos.org/legal
-
 # Media
 PRODUCT_PRODUCT_PROPERTIES += \
     media.recorder.show_manufacturer_and_model=true
@@ -74,6 +68,4 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
 
 # Themes
 PRODUCT_PACKAGES += \
-    LineageBlackTheme \
-    ThemePicker \
-    ThemesStub
+    ThemePicker

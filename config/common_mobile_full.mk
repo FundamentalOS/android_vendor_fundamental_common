@@ -1,4 +1,4 @@
-# Inherit common Lineage stuff
+# Inherit common FundamentalOS stuff
 $(call inherit-product, vendor/fundamental/common/config/common_mobile.mk)
 
 PRODUCT_SIZE := full
@@ -6,29 +6,8 @@ PRODUCT_SIZE := full
 # Include GoogleSansFlex font
 $(call inherit-product-if-exists, external/google-fonts/google-sans-flex/fonts.mk)
 
-# Apps
-PRODUCT_PACKAGES += \
-    Camelot \
-    Etar \
-    Profiles \
-    Recorder \
-    Seedvault \
-
-ifneq ($(PRODUCT_NO_CAMERA),true)
-ifneq ($(FUNDAMENTAL_SHIPS_GCAM),true)
-PRODUCT_PACKAGES += \
-    Aperture
-endif
-endif
-
-ifneq ($(TARGET_EXCLUDES_AUDIOFX),true)
-PRODUCT_PACKAGES += \
-    AudioFX
-endif
-
 # Extra cmdline tools
 PRODUCT_PACKAGES += \
-    unrar \
     zstd
 
 # Fonts
@@ -36,6 +15,6 @@ PRODUCT_PACKAGES += \
     fonts_customization.xml \
     FontGoogleSansFlexOverlay
 
-# Include Lineage LatinIME dictionaries
+# Include the LatinIME dictionaries
 PRODUCT_PACKAGE_OVERLAYS += vendor/fundamental/common/overlay/dictionaries
 PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/fundamental/common/overlay/dictionaries
