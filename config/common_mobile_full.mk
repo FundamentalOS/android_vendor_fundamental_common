@@ -6,10 +6,6 @@ PRODUCT_SIZE := full
 # Include GoogleSansFlex font
 $(call inherit-product-if-exists, external/google-fonts/google-sans-flex/fonts.mk)
 
-# Extra cmdline tools
-PRODUCT_PACKAGES += \
-    zstd
-
 # Fonts
 PRODUCT_PACKAGES += \
     fonts_customization.xml \
