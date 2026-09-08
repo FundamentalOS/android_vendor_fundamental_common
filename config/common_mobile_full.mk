@@ -3,6 +3,12 @@ $(call inherit-product, vendor/fundamental/common/config/common_mobile.mk)
 
 PRODUCT_SIZE := full
 
+# Apps carried over from LineageOS (FundamentalOS forks)
+PRODUCT_PACKAGES += \
+    Camelot \
+    Etar \
+    Recorder
+
 # Include GoogleSansFlex font
 $(call inherit-product-if-exists, external/google-fonts/google-sans-flex/fonts.mk)
 
