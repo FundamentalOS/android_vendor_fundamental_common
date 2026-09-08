@@ -1,0 +1,18 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// Sensitive phone number helper that used to ship in lineage-sdk/lib. Dialer
+// (call recording, helplines) is its only user; the schema lives in ../../spn.
+java_library {
+    name: "org.lineageos.lib.phone",
+    sdk_version: "current",
+    static_libs: [
+        "libphonenumber",
+    ],
+    srcs: [
+        "src/java/org/lineageos/lib/phone/*.java",
+        ":spn-info",
+    ],
+}
