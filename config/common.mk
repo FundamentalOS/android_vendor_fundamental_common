@@ -128,6 +128,10 @@ PRODUCT_PACKAGES += \
     ExactCalculator
 endif
 
+# Setup wizard (FundamentalOS fork of the LineageOS one; overrides Provision)
+PRODUCT_PACKAGES += \
+    FundamentalSetupWizard
+
 # Config
 PRODUCT_PACKAGES += \
     SimpleDeviceConfig
