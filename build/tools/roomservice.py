@@ -33,7 +33,7 @@ from xml.etree import ElementTree
 # dependency does not pin its own remote/branch.
 FUNDAMENTAL_ORG = 'FundamentalOS'
 FUNDAMENTAL_REMOTE = 'fundamentalos'
-FUNDAMENTAL_BRANCH = '16'
+FUNDAMENTAL_BRANCH = '17'
 
 dryrun = os.getenv('ROOMSERVICE_DRYRUN') == 'true'
 if dryrun:
