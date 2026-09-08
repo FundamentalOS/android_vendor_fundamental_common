@@ -1,5 +1,9 @@
 # FundamentalOS: config dir for the Play Integrity attestation forge. keystore2 reads the keybox +
-# target-uid list here; the Settings integrity UI writes them. Labeled fundamental_data_file by
-# file_contexts; mode 0771 so system (Settings) writes and keystore (other) can search + read files.
+# target-uid list here; the Settings integrity UI (system uid) AND the FundamentalForge fetch service
+# (its own priv-app uid, fundamental_forge_app domain) both write them. Mode 0773 so a non-system uid
+# can create files here; SELinux (fundamental_data_file, allowed only to keystore/system_app/
+# fundamental_forge_app) is the real access boundary. chmod re-applies the mode to a dir that already
+# exists from an earlier build.
 on post-fs-data
-    mkdir /data/misc/fundamental 0771 system system
+    mkdir /data/misc/fundamental 0773 system system
+    chmod 0773 /data/misc/fundamental
