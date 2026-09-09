@@ -39,7 +39,4 @@
 
     <!-- Whether to show the "glanceable hub" settings on mobile. -->
     <bool name="config_show_glanceable_hub_toggle_setting_mobile">true</bool>
-    <!-- GMS registers SystemUpdateActivity for SYSTEM_UPDATE_SETTINGS, which only serves
-         Google OTAs; hide the homepage "System update" entry it would create. -->
-    <bool name="config_show_system_update_settings">false</bool>
 </resources>

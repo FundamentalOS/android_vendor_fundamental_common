@@ -129,6 +129,13 @@ PRODUCT_PACKAGES += \
 endif
 
 # Setup wizard (FundamentalOS fork of the LineageOS one; overrides Provision)
+# OTA updater (LineageOS 24 base, rebrand pending)
+PRODUCT_PACKAGES += \
+    Updater
+
+PRODUCT_COPY_FILES += \
+    vendor/fundamental/common/prebuilt/common/etc/init/init.lineage-updater.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.lineage-updater.rc
+
 PRODUCT_PACKAGES += \
     FundamentalSetupWizard
 
