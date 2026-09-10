@@ -29,12 +29,16 @@
             ASI ships these flags defaulting to false and normally receives
             them from the server; bake the ones our SystemUI features rely on.
         -->
-        <!-- Smartspace weather: let ASI pull weather data itself (via PCS) -->
-        <item>device_personalization_services/Echo__smartspace_enable_private_weather=true</item>
-        <item>device_personalization_services/Echo__smartspace_enable_weather_data_pull_scheduler=true</item>
-        <item>device_personalization_services/Echo__smartspace_enable_weather_data_pull_scheduler_use_location=true</item>
         <!-- Screenshot smart actions (ScreenshotNotificationSmartActionsProvider) -->
         <item>device_personalization_services/Screenshot__enable_screenshot_notification_smart_actions=true</item>
+        <!-- Smartspace weather: keep ASI's "private weather" pipeline OFF (its built-in
+             default). While Echo__smartspace_enable_private_weather is true ASI discards
+             every weather card the Google app shares with it and waits for a private
+             weather feed that nothing on this device provides. Written explicitly, not
+             merely omitted, because DeviceConfig keeps values written by earlier builds. -->
+        <item>device_personalization_services/Echo__smartspace_enable_private_weather=false</item>
+        <item>device_personalization_services/Echo__smartspace_enable_weather_data_pull_scheduler=false</item>
+        <item>device_personalization_services/Echo__smartspace_enable_weather_data_pull_scheduler_use_location=false</item>
 
         <!-- Use new privacy indicators for location -->
         <item>privacy/location_indicators_enabled=true</item>
